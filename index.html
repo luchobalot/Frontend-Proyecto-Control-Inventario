@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Inventario - Dashboard</title>
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Sistema de Control de Inventario</h1>
+                <p>Panel de administración general</p>
+            </div>
+            <div class="user-info">
+                <span>Admin</span>
+                <span>•</span>
+                <span>16 Jul 2025, 14:30</span>
+                <button class="btn btn-out">Cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Acciones Rápidas -->
+        <div class="quick-actions">
+            <a href="crear-asignacion.html" class="quick-btn">+ Nueva asignación</a>
+            <a href="busqueda-avanzada.html" class="quick-btn">🔍 Búsqueda avanzada</a>
+            <a href="configuracion.html" class="quick-btn">⚙️ Configuración</a>
+        </div>
+
+        <!-- Secciones Principales -->
+        <div class="main-grid">
+            <!-- Gestión de Oficinas -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-icon oficinas-icon">OF</div>
+                        <div>
+                            <div class="section-title">Oficinas</div>
+                            <div class="section-subtitle">Gestión de oficinas</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary">Registrar oficina</button>
+                    <button class="btn btn-secondary">Editar oficina</button>
+                    <button class="btn btn-secondary">Eliminar oficina</button>
+                    <button class="btn btn-secondary">Listado de oficinas</button>
+                </div>
+            </div>
+
+            <!-- Gestión de Personal -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-icon personas-icon">PE</div>
+                        <div>
+                              <a href="personal.html">Personal</a>
+                            <div class="section-subtitle">Administración del personal</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                        <a href="registrar-personal.html" class="btn btn-primary">Registrar Personal</a>
+                        <a href="editar-personal.html" class="btn btn-secondary">Editar Personal</a>
+                        <a href="eliminar-personal.html" class="btn btn-secondary">Eliminar Personal</a>
+                        <a href="listado-personal.html" class="btn btn-secondary">Listar Personal</a>
+                </div>
+            </div>
+
+            <!-- Gestión de Materiales -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-icon materiales-icon">MT</div>
+                        <div>
+                            <div class="section-title">Materiales</div>
+                            <div class="section-subtitle">Control del inventario</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary">Registrar material</button>
+                    <button class="btn btn-secondary">Editar material</button>
+                    <button class="btn btn-secondary">Eliminar material</button>
+                    <button class="btn btn-secondary">Listado de materiales</button>
+                </div>
+            </div>
+
+            <!-- Actividad Reciente -->
+            <div class="section-card full-width recent-activity">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-icon" style="background: #6366f1;">AC</div>
+                        <div>
+                            <div class="section-title">Historial de actividades</div>
+                            <div class="section-subtitle">Últimas operaciones del sistema</div>
+                        </div>
+                    </div>
+                    <!-- <a href="listado-personal.html" class="quick-btn">Ver Todo</a> -->
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <div class="activity-title">Asignación de equipo portátil</div>
+                            <div class="activity-description">Laptop Dell Latitude 5520 asignada a Juan Carlos Pérez - Oficina Central</div>
+                        </div>
+                        <div class="activity-status status-completed">Completado</div>
+                        <div class="activity-time">14:25</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <div class="activity-title">Registro de nueva oficina</div>
+                            <div class="activity-description">Sucursal Norte agregada al sistema - Dirección: Av. Libertador 1234</div>
+                        </div>
+                        <div class="activity-status status-completed">Completado</div>
+                        <div class="activity-time">12:15</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <div class="activity-title">Devolución de material</div>
+                            <div class="activity-description">Mouse inalámbrico Logitech devuelto por Ana García Rodríguez</div>
+                        </div>
+                        <div class="activity-status status-pending">En proceso</div>
+                        <div class="activity-time">11:45</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

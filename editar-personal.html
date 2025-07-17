@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Personal - Control de Inventario</title>
+    <link rel="stylesheet" href="styles/editar-personal.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Sistema de Control de Inventario</h1>
+                <p>Editar información del personal</p>
+            </div>
+            <div class="user-info">
+                <span>Admin</span>
+                <span>•</span>
+                <span>16 Jul 2025, 14:30</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Navegación -->
+        <div class="breadcrumb">
+            <a href="index.html" class="breadcrumb-link">Inicio</a>
+            <span class="breadcrumb-separator">></span>
+            <a href="personal.html" class="breadcrumb-link">Personal</a>
+            <span class="breadcrumb-separator">></span>
+            <span class="breadcrumb-current">Editar Personal</span>
+        </div>
+
+        <!-- Búsqueda de Personal -->
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-title-group">
+                    <div class="search-icon">🔍</div>
+                    <div>
+                        <h2 class="search-title">Editar Personal</h2>
+                        <p class="search-subtitle">Encuentre la persona que desea modificar</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-form">
+                <div class="search-input-group">
+                    <input 
+                        type="text" 
+                        id="search-personal" 
+                        class="search-input" 
+                        placeholder="Buscar por nombre, apellido, usuario o ID..."
+                        autocomplete="off"
+                    >
+                    <button type="button" class="search-btn" id="btn-search-personal">🔍 Buscar</button>
+                </div>
+                <div class="search-filters">
+                    <select class="filter-select" id="filter-oficina">
+                        <option value="">Todas las oficinas</option>
+                    </select>
+                    <select class="filter-select" id="filter-rol">
+                        <option value="">Todos los roles</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Resultados de búsqueda -->
+            <div class="search-results" id="search-results">
+                <div class="results-header">
+                    <h3>Resultados de Búsqueda</h3>
+                    <span class="results-count">3 personas encontradas</span>
+                </div>
+                
+                <div class="person-list">
+                    <!-- Persona 1 -->
+                    <div class="person-card" data-id="1">
+                        <div class="person-avatar">JC</div>
+                        <div class="person-info">
+                            <div class="person-name">Juan Carlos Pérez González</div>
+                            <div class="person-details">
+                                <span class="detail-item">Usuario: jcperez</span>
+                                <span class="detail-item">Administrador</span>
+                                <span class="detail-item">Oficina 1 - Central</span>
+                            </div>
+                            <div class="person-meta">
+                                <span class="person-id">ID: 1</span>
+                                <span class="person-status status-active">Activo</span>
+                            </div>
+                        </div>
+                        <div class="person-actions">
+                            <button class="btn btn-primary edit-person-btn" data-id="1">
+                                ✏️ Editar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Persona 2 -->
+                    <div class="person-card" data-id="2">
+                        <div class="person-avatar">MG</div>
+                        <div class="person-info">
+                            <div class="person-name">María González López</div>
+                            <div class="person-details">
+                                <span class="detail-item">Usuario: mgonzalez</span>
+                                <span class="detail-item">Supervisor</span>
+                                <span class="detail-item">Oficina 2 - Norte</span>
+                            </div>
+                            <div class="person-meta">
+                                <span class="person-id">ID: 2</span>
+                                <span class="person-status status-active">Activo</span>
+                            </div>
+                        </div>
+                        <div class="person-actions">
+                            <button class="btn btn-primary edit-person-btn" data-id="2">
+                                ✏️ Editar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Persona 3 -->
+                    <div class="person-card" data-id="3">
+                        <div class="person-avatar">AR</div>
+                        <div class="person-info">
+                            <div class="person-name">Ana Rodríguez Martín</div>
+                            <div class="person-details">
+                                <span class="detail-item">Usuario: arodriguez</span>
+                                <span class="detail-item">Usuario</span>
+                                <span class="detail-item">Oficina 3 - Sur</span>
+                            </div>
+                            <div class="person-meta">
+                                <span class="person-id">ID: 3</span>
+                                <span class="person-status status-active">Activo</span>
+                            </div>
+                        </div>
+                        <div class="person-actions">
+                            <button class="btn btn-primary edit-person-btn" data-id="3">
+                                ✏️ Editar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Edición -->
+        <div class="form-container" id="form-container" style="display: none;">
+            <div class="form-header">
+                <div class="form-title-group">
+                    <div class="form-icon">✏️</div>
+                    <div>
+                        <h2 class="form-title">Editar Personal</h2>
+                        <p class="form-subtitle">Modifique los datos del empleado seleccionado</p>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline" id="btn-cancel-edit">
+                    ← Volver a Búsqueda
+                </button>
+            </div>
+
+            <form class="edit-form" method="POST" action="/Personal/Editar">
+                <!-- Campo oculto para ID -->
+                <input type="hidden" id="idPersona" name="IdPersona" value="">
+
+                <!-- Información Personal -->
+                <div class="form-section">
+                    <h3 class="section-title">Información Personal</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre" class="form-label">Nombre *</label>
+                            <input 
+                                type="text" 
+                                id="nombre" 
+                                name="Nombre" 
+                                class="form-input" 
+                                maxlength="100" 
+                                required
+                                placeholder="Ingrese el nombre"
+                            >
+                            <span class="form-error" id="nombre-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apellido" class="form-label">Apellido *</label>
+                            <input 
+                                type="text" 
+                                id="apellido" 
+                                name="Apellido" 
+                                class="form-input" 
+                                maxlength="100" 
+                                required
+                                placeholder="Ingrese el apellido"
+                            >
+                            <span class="form-error" id="apellido-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Laboral -->
+                <div class="form-section">
+                    <h3 class="section-title">Información Laboral</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jerarquia" class="form-label">Jerarquía *</label>
+                            <select id="jerarquia" name="Jerarquia" class="form-select" required>
+                                <option value="">Seleccione una jerarquía</option>
+                                <option value="0">Agente Civil</option>
+                                <option value="1">Marinero Segundo</option>
+                                <option value="2">Marinero Primero</option>
+                                <option value="3">Cabo Segundo</option>
+                                <option value="4">Cabo Primero</option>
+                                <option value="5">Cabo Principal</option>
+                                <option value="6">Suboficial Segundo</option>
+                                <option value="7">Suboficial Primero</option>
+                                <option value="8">Suboficial Principal</option>
+                                <option value="9">Suboficial Mayor</option>
+                                <option value="10">Guardiamarina</option>
+                                <option value="11">Teniente de Corbeta</option>
+                                <option value="12">Teniente de Fragata</option>
+                                <option value="13">Teniente de Navío</option>
+                                <option value="14">Capitán de Corbeta</option>
+                                <option value="15">Capitán de Fragata</option>
+                                <option value="16">Capitán de Navío</option>
+                                <option value="17">Comodoro de Marina</option>
+                                <option value="18">Contraalmirante</option>
+                                <option value="19">Vicealmirante</option>
+                                <option value="20">Almirante</option>
+                            </select>
+                            <span class="form-error" id="jerarquia-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oficina" class="form-label">Oficina</label>
+                            <select id="oficina" name="OficinaId" class="form-select">
+                                <option value="">Sin oficina asignada</option>
+                                <option value="1">Oficina 1 - Central</option>
+                                <option value="2">Oficina 2 - Norte</option>
+                                <option value="3">Oficina 3 - Sur</option>
+                            </select>
+                            <span class="form-error" id="oficina-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información de Sistema -->
+                <div class="form-section">
+                    <h3 class="section-title">Información del Sistema</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombreUsuario" class="form-label">Nombre de Usuario *</label>
+                            <input 
+                                type="text" 
+                                id="nombreUsuario" 
+                                name="NombreUsuario" 
+                                class="form-input" 
+                                maxlength="50" 
+                                required
+                                placeholder="Ingrese el nombre de usuario"
+                            >
+                            <span class="form-hint">Este será el usuario para acceder al sistema</span>
+                            <span class="form-error" id="nombreUsuario-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rol" class="form-label">Rol del Usuario *</label>
+                            <select id="rol" name="Rol" class="form-select" required>
+                                <option value="">Seleccione un rol</option>
+                                <option value="1">Usuario</option>
+                                <option value="2">Administrador</option>
+                                <option value="3">SuperAdmin</option>
+                                <option value="4">Sin Usuario</option>
+                            </select>
+                            <span class="form-hint">Define los permisos en el sistema</span>
+                            <span class="form-error" id="rol-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Adicional -->
+                <div class="form-section">
+                    <h3 class="section-title">Información Adicional</h3>
+                    
+                    <div class="current-assignments">
+                        <div class="assignments-header">
+                            <h4>Asignaciones Actuales</h4>
+                            <span class="assignments-count">3 materiales asignados</span>
+                        </div>
+                        <div class="assignments-list">
+                            <div class="assignment-item">
+                                <span class="assignment-material">Laptop Dell Latitude 5520</span>
+                                <span class="assignment-code">LAP-001</span>
+                                <span class="assignment-date">Desde: 15/07/2025</span>
+                            </div>
+                            <div class="assignment-item">
+                                <span class="assignment-material">Monitor Samsung 24"</span>
+                                <span class="assignment-code">MON-001</span>
+                                <span class="assignment-date">Desde: 10/07/2025</span>
+                            </div>
+                            <div class="assignment-item">
+                                <span class="assignment-material">Mouse Logitech MX</span>
+                                <span class="assignment-code">MOU-001</span>
+                                <span class="assignment-date">Desde: 10/07/2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel">
+                        Cancelar
+                    </button>
+                    <button type="reset" class="btn btn-outline">
+                        Restaurar Datos
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

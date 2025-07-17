@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Personal - Control de Inventario</title>
+    <link rel="stylesheet" href="styles/registrar-personal.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Sistema de Control de Inventario</h1>
+                <p>Registrar nuevo personal</p>
+            </div>
+            <div class="user-info">
+                <span>Admin</span>
+                <span>•</span>
+                <span>16 Jul 2025, 14:30</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Navegación -->
+        <div class="breadcrumb">
+            <a href="index.html" class="breadcrumb-link">Inicio</a>
+            <span class="breadcrumb-separator">></span>
+            <a href="personal.html" class="breadcrumb-link">Personal</a>
+            <span class="breadcrumb-separator">></span>
+            <span class="breadcrumb-current">Registrar Personal</span>
+        </div>
+
+        <!-- Formulario Principal -->
+        <div class="form-container">
+            <div class="form-header">
+                <div class="form-title-group">
+                    <div class="form-icon">PE</div>
+                    <div>
+                        <h2 class="form-title">Registrar Personal</h2>
+                        <p class="form-subtitle">Complete los datos del nuevo empleado</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="registration-form" method="POST" action="/Personal/Registrar">
+                <!-- Información Personal -->
+                <div class="form-section">
+                    <h3 class="section-title">Información Personal</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre" class="form-label">Nombre *</label>
+                            <input 
+                                type="text" 
+                                id="nombre" 
+                                name="Nombre" 
+                                class="form-input" 
+                                maxlength="100" 
+                                required
+                                placeholder="Ingrese el nombre"
+                            >
+                            <span class="form-error" id="nombre-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apellido" class="form-label">Apellido *</label>
+                            <input 
+                                type="text" 
+                                id="apellido" 
+                                name="Apellido" 
+                                class="form-input" 
+                                maxlength="100" 
+                                required
+                                placeholder="Ingrese el apellido"
+                            >
+                            <span class="form-error" id="apellido-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Laboral -->
+                <div class="form-section">
+                    <h3 class="section-title">Información Laboral</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jerarquia" class="form-label">Jerarquía *</label>
+                            <select id="jerarquia" name="Jerarquia" class="form-select" required>
+                                <option value="">Seleccione una jerarquía</option>
+                            </select>
+                            <span class="form-error" id="jerarquia-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oficina" class="form-label">Oficina</label>
+                            <select id="oficina" name="OficinaId" class="form-select">
+                                <option value="">Sin oficina asignada</option>
+                            </select>
+                            <span class="form-error" id="oficina-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información de Sistema -->
+                <div class="form-section">
+                    <h3 class="section-title">Información del Sistema</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombreUsuario" class="form-label">Nombre de Usuario *</label>
+                            <input 
+                                type="text" 
+                                id="nombreUsuario" 
+                                name="NombreUsuario" 
+                                class="form-input" 
+                                maxlength="50" 
+                                required
+                                placeholder="Ingrese el nombre de usuario"
+                            >
+                            <span class="form-hint">Este será el usuario para acceder al sistema</span>
+                            <span class="form-error" id="nombreUsuario-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rol" class="form-label">Rol del Usuario *</label>
+                            <select id="rol" name="Rol" class="form-select" required>
+                                <option value="">Seleccione un rol</option>
+                            </select>
+                            <span class="form-hint">Define los permisos en el sistema</span>
+                            <span class="form-error" id="rol-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()">
+                        Cancelar
+                    </button>
+                    <button type="reset" class="btn btn-outline">
+                        Limpiar Formulario
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Registrar Personal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

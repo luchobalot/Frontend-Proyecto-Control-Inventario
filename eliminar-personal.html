@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Personal - Control de Inventario</title>
+    <link rel="stylesheet" href="styles/eliminar-personal.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Sistema de Control de Inventario</h1>
+                <p>Eliminar personal del sistema</p>
+            </div>
+            <div class="user-info">
+                <span>Admin</span>
+                <span>•</span>
+                <span>16 Jul 2025, 14:30</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Navegación -->
+        <div class="breadcrumb">
+            <a href="index.html" class="breadcrumb-link">Inicio</a>
+            <span class="breadcrumb-separator">></span>
+            <a href="personal.html" class="breadcrumb-link">Personal</a>
+            <span class="breadcrumb-separator">></span>
+            <span class="breadcrumb-current">Eliminar Personal</span>
+        </div>
+
+        <!-- Advertencia Principal -->
+        <div class="warning-banner">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-content">
+                <h3 class="warning-title">Advertencia</h3>
+                <p class="warning-text">Esta acción eliminará permanentemente el registro del personal seleccionado. Asegúrese de verificar todas las asignaciones antes de proceder.</p>
+            </div>
+        </div>
+
+        <!-- Búsqueda de Personal -->
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-title-group">
+                    <div class="search-icon">🔍</div>
+                    <div>
+                        <h2 class="search-title">Eliminar Personal</h2>
+                        <p class="search-subtitle">Encuentre la persona que desea eliminar del sistema</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-form">
+                <div class="search-input-group">
+                    <input 
+                        type="text" 
+                        id="search-personal" 
+                        class="search-input" 
+                        placeholder="Buscar por nombre, apellido, usuario o ID..."
+                        autocomplete="off"
+                    >
+                    <button type="button" class="search-btn" id="btn-search-personal">🔍 Buscar</button>
+                </div>
+                <div class="search-filters">
+                    <select class="filter-select" id="filter-oficina">
+                        <option value="">Todas las oficinas</option>
+    
+                    </select>
+                    <select class="filter-select" id="filter-rol">
+                        <option value="">Todos los roles</option>
+
+                    </select>
+                    <select class="filter-select" id="filter-estado">
+                        <option value="">Todos los estados</option>
+                        <option value="eliminable">Eliminables sin problemas</option>
+                        <option value="warning">Eliminables con advertencias</option>
+                        <option value="no-eliminable">No eliminables</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Resultados de búsqueda -->
+            <div class="search-results" id="search-results">
+                <div class="results-header">
+                    <h3>Resultados de Búsqueda</h3>
+                    <span class="results-count">4 personas encontradas</span>
+                </div>
+                
+                <div class="person-list">
+                    <!-- Persona 1 - Eliminable -->
+                    <div class="person-card eliminable" data-id="1">
+                        <div class="person-avatar">JC</div>
+                        <div class="person-info">
+                            <div class="person-name">Juan Carlos Pérez González</div>
+                            <div class="person-details">
+                                <span class="detail-item">Usuario: jcperez</span>
+                                <span class="detail-item">Administrador</span>
+                                <span class="detail-item">Oficina 1 - Central</span>
+                            </div>
+                            <div class="person-meta">
+                                <span class="person-id">ID: 1</span>
+                                <span class="person-status status-active">Activo</span>
+                            </div>
+                            <div class="elimination-info">
+                                <div class="elimination-status eliminable-status">
+                                    <span class="status-icon">✅</span>
+                                    <span class="status-text">Puede ser eliminado</span>
+                                </div>
+                                <div class="assignments-summary">
+                                    <span class="assignments-count">0 materiales asignados</span>
+                                    <span class="history-count">Sin registros en historial crítico</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="person-actions">
+                            <button class="btn btn-danger delete-person-btn" data-id="1">
+                                🗑️ Eliminar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Persona 2 - Eliminable con Advertencia por asignaciones -->
+                    <div class="person-card warning" data-id="2">
+                        <div class="person-avatar">MG</div>
+                        <div class="person-info">
+                            <div class="person-name">María González López</div>
+                            <div class="person-details">
+                                <span class="detail-item">Usuario: mgonzalez</span>
+                                <span class="detail-item">Supervisor</span>
+                                <span class="detail-item">Oficina 2 - Norte</span>
+                            </div>
+                            <div class="person-meta">
+                                <span class="person-id">ID: 2</span>
+                                <span class="person-status status-active">Activo</span>
+                            </div>
+                            <div class="elimination-info">
+                                <div class="elimination-status warning-status">
+                                    <span class="status-icon">⚠️</span>
+                                    <span class="status-text">Eliminable con advertencias</span>
+                                </div>
+                                <div class="assignments-summary">
+                                    <span class="assignments-count warning">3 materiales asignados</span>
+                                    <span class="history-count">Aparece en 15 registros de historial</span>
+                                </div>
+                                <div class="warning-reason">
+                                    <strong>Advertencia:</strong> Tiene materiales asignados que se perderán al eliminar el usuario
+                                </div>
+                            </div>
+                        </div>
+                        <div class="person-actions">
+                            <button class="btn btn-warning delete-person-btn" data-id="2">
+                                ⚠️ Eliminar con Advertencia
+                            </button>
+                            <button class="btn btn-outline view-assignments-btn" data-id="2">
+                                📋 Ver Asignaciones
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Persona 3 - No Eliminable por historial -->
+                    <div class="person-card not-eliminable" data-id="3">
+                        <div class="person-avatar">AR</div>
+                        <div class="person-info">
+                            <div class="person-name">Ana Rodríguez Martín</div>
+                            <div class="person-details">
+                                <span class="detail-item">Usuario: arodriguez</span>
+                                <span class="detail-item">Usuario</span>
+                                <span class="detail-item">Oficina 3 - Sur</span>
+                            </div>
+                            <div class="person-meta">
+                                <span class="person-id">ID: 3</span>
+                                <span class="person-status status-active">Activo</span>
+                            </div>
+                            <div class="elimination-info">
+                                <div class="elimination-status not-eliminable-status">
+                                    <span class="status-icon">❌</span>
+                                    <span class="status-text">No puede ser eliminado</span>
+                                </div>
+                                <div class="assignments-summary">
+                                    <span class="assignments-count">0 materiales asignados</span>
+                                    <span class="history-count blocking">Registró 45 movimientos en historial</span>
+                                </div>
+                                <div class="blocking-reason">
+                                    <strong>Motivo:</strong> Aparece como usuario registrador en el historial de movimientos
+                                </div>
+                            </div>
+                        </div>
+                        <div class="person-actions">
+                            <button class="btn btn-disabled" disabled>
+                                🚫 No Eliminable
+                            </button>
+                            <button class="btn btn-outline view-history-btn" data-id="3">
+                                📊 Ver Historial
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Persona 4 - Eliminable -->
+                    <div class="person-card eliminable" data-id="4">
+                        <div class="person-avatar">CS</div>
+                        <div class="person-info">
+                            <div class="person-name">Carlos Sánchez López</div>
+                            <div class="person-details">
+                                <span class="detail-item">Usuario: csanchez</span>
+                                <span class="detail-item">Usuario</span>
+                                <span class="detail-item">Sin oficina asignada</span>
+                            </div>
+                            <div class="person-meta">
+                                <span class="person-id">ID: 4</span>
+                                <span class="person-status status-inactive">Inactivo</span>
+                            </div>
+                            <div class="elimination-info">
+                                <div class="elimination-status eliminable-status">
+                                    <span class="status-icon">✅</span>
+                                    <span class="status-text">Puede ser eliminado</span>
+                                </div>
+                                <div class="assignments-summary">
+                                    <span class="assignments-count">0 materiales asignados</span>
+                                    <span class="history-count">Sin registros en historial crítico</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="person-actions">
+                            <button class="btn btn-danger delete-person-btn" data-id="4">
+                                🗑️ Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmación -->
+        <div class="modal-overlay" id="confirmation-modal" style="display: none;">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <div class="modal-title-group">
+                        <div class="modal-icon danger-icon">⚠️</div>
+                        <div>
+                            <h3 class="modal-title">Confirmar Eliminación</h3>
+                            <p class="modal-subtitle">Esta acción no se puede deshacer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-content">
+                    <div class="deletion-summary">
+                        <h4>Datos a eliminar:</h4>
+                        <div class="summary-item">
+                            <span class="summary-label">Nombre:</span>
+                            <span class="summary-value" id="modal-name">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Usuario:</span>
+                            <span class="summary-value" id="modal-username">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Rol:</span>
+                            <span class="summary-value" id="modal-role">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">ID:</span>
+                            <span class="summary-value" id="modal-id">-</span>
+                        </div>
+                    </div>
+
+                    <div class="deletion-warnings">
+                        <div class="warning-item">
+                            <span class="warning-icon">🚨</span>
+                            <span class="warning-text">Se eliminará permanentemente del sistema</span>
+                        </div>
+                        <div class="warning-item">
+                            <span class="warning-icon">📦</span>
+                            <span class="warning-text">Si tiene materiales asignados, estos quedarán sin asignar</span>
+                        </div>
+                        <div class="warning-item">
+                            <span class="warning-icon">📊</span>
+                            <span class="warning-text">Los registros de historial donde aparezca se mantendrán pero mostrarán "Usuario Eliminado"</span>
+                        </div>
+                        <div class="warning-item">
+                            <span class="warning-icon">🔒</span>
+                            <span class="warning-text">No podrá acceder más al sistema</span>
+                        </div>
+                    </div>
+
+                    <div class="confirmation-checkbox">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="confirm-deletion" class="confirmation-input">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-text">Confirmo que deseo eliminar este personal y entiendo que esta acción es irreversible</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-deletion">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn-confirm-deletion" disabled>
+                        🗑️ Eliminar Permanentemente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

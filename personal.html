@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Personal - Control de Inventario</title>
+    <link rel="stylesheet" href="styles/personal.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Sistema de Control de Inventario</h1>
+                <p>Gestión del personal</p>
+            </div>
+            <div class="user-info">
+                <span>Admin</span>
+                <span>•</span>
+                <span>16 Jul 2025, 14:30</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Navegación -->
+        <div class="breadcrumb">
+            <a href="index.html" class="breadcrumb-link">Inicio</a>
+            <span class="breadcrumb-separator">></span>
+            <span class="breadcrumb-current">Personal</span>
+        </div>
+
+        <!-- Estadísticas de Personal -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon total-icon">👥</div>
+                </div>
+                <div class="stat-number" id="total-personal">0</div>
+                <div class="stat-label">Total Personal Registrado</div>
+            </div>
+        </div>
+
+        <!-- Acciones Rápidas -->
+        <div class="quick-actions">
+            <button class="quick-btn" id="btn-exportar">📊 Exportar Datos</button>
+        </div>
+
+        <!-- Grid Principal -->
+        <div class="main-grid">
+            <!-- Gestión Principal -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-icon personas-icon">PE</div>
+                        <div>
+                            <div class="section-title">Gestión de Personal</div>
+                            <div class="section-subtitle">Administración completa</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <div class="action-buttons">
+                        <a href="registrar-personal.html" class="btn btn-primary">Registrar Personal</a>
+                        <a href="editar-personal.html" class="btn btn-secondary">Editar Personal</a>
+                        <a href="eliminar-personal.html" class="btn btn-secondary">Eliminar Personal</a>
+                        <a href="listado-personal.html" class="btn btn-secondary">Listado Completo</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asignaciones -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-icon asignaciones-icon">📋</div>
+                        <div>
+                            <div class="section-title">Asignaciones</div>
+                            <div class="section-subtitle">Control de materiales</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <a href="crear-asignacion.html" class="btn btn-primary">Nueva Asignación</a>
+                    <button class="btn btn-secondary" id="btn-eliminar-asignacion">Eliminar Asignación</button>
+                    <button class="btn btn-secondary" id="btn-editar-asignacion">Editar Asignación</button>
+                    <button class="btn btn-secondary" id="btn-ver-asignaciones">Ver Asignaciones</button>
+                </div>
+            </div>
+
+            <!-- Personal Reciente -->
+            <div class="section-card full-width">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <div class="section-icon reciente-icon">🕒</div>
+                        <div>
+                            <div class="section-title">Personal Agregado Recientemente</div>
+                            <div class="section-subtitle">Últimos registros y modificaciones en el sistema</div>
+                        </div>
+                    </div>
+                    <a href="listado-personal.html" class="quick-btn" id="btn-ver-todo">Ver Todo</a>
+                    
+                </div>
+                <div class="personal-list">
+                    <div class="personal-item">
+                        <div class="personal-avatar">JC</div>
+                        <div class="personal-info">
+                            <div class="personal-name">Juan Carlos Pérez</div>
+                            <div class="personal-details">Administrador • Oficina Central • Registrado hoy</div>
+                        </div>
+                        <div class="personal-status status-active">Activo</div>
+                        <div class="personal-actions">
+                            <button class="action-btn" title="Ver perfil">👁️</button>
+                            <button class="action-btn" title="Editar">✏️</button>
+                            <button class="action-btn" title="Asignaciones">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="personal-item">
+                        <div class="personal-avatar">MG</div>
+                        <div class="personal-info">
+                            <div class="personal-name">María González López</div>
+                            <div class="personal-details">Supervisor • Sucursal Norte • Actualizado hace 2h</div>
+                        </div>
+                        <div class="personal-status status-active">Activo</div>
+                        <div class="personal-actions">
+                            <button class="action-btn" title="Ver perfil">👁️</button>
+                            <button class="action-btn" title="Editar">✏️</button>
+                            <button class="action-btn" title="Asignaciones">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="personal-item">
+                        <div class="personal-avatar">AR</div>
+                        <div class="personal-info">
+                            <div class="personal-name">Ana Rodríguez</div>
+                            <div class="personal-details">Operador • Sucursal Sur • Registrado ayer</div>
+                        </div>
+                        <div class="personal-status status-active">Activo</div>
+                        <div class="personal-actions">
+                            <button class="action-btn" title="Ver perfil">👁️</button>
+                            <button class="action-btn" title="Editar">✏️</button>
+                            <button class="action-btn" title="Asignaciones">📋</button>
+                        </div>
+                    </div>
+
+                    <div class="personal-item">
+                        <div class="personal-avatar">LM</div>
+                        <div class="personal-info">
+                            <div class="personal-name">Luis Martínez</div>
+                            <div class="personal-details">Técnico • Oficina Central • Estado modificado hace 1h</div>
+                        </div>
+                        <div class="personal-status status-inactive">Inactivo</div>
+                        <div class="personal-actions">
+                            <button class="action-btn" title="Ver perfil">👁️</button>
+                            <button class="action-btn" title="Editar">✏️</button>
+                            <button class="action-btn" title="Asignaciones">📋</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

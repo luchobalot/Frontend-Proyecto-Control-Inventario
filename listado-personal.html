@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Personal - Control de Inventario</title>
+    <link rel="stylesheet" href="styles/listado-personal.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Sistema de Control de Inventario</h1>
+                <p>Listado completo de personal</p>
+            </div>
+            <div class="user-info">
+                <span>Admin</span>
+                <span>•</span>
+                <span>16 Jul 2025, 14:30</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Navegación -->
+        <div class="breadcrumb">
+            <a href="index.html" class="breadcrumb-link">Inicio</a>
+            <span class="breadcrumb-separator">></span>
+            <a href="personal.html" class="breadcrumb-link">Personal</a>
+            <span class="breadcrumb-separator">></span>
+            <span class="breadcrumb-current">Listado de Personal</span>
+        </div>
+
+        <!-- Encabezado de la página -->
+        <div class="page-header">
+            <div class="page-title-group">
+                <div class="page-icon">👥</div>
+                <div>
+                    <h2 class="page-title">Listado de Personal</h2>
+                    <p class="page-subtitle">Gestión completa de empleados del sistema</p>
+                </div>
+            </div>
+            <div class="page-stats">
+                <span class="total-count" id="total-empleados">127 personas registradas</span>
+            </div>
+        </div>
+
+        <!-- Controles de la tabla -->
+        <div class="table-controls">
+            <div class="search-controls">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Buscar por nombre, apellido o usuario..." class="search-input">
+                    <button class="search-btn" id="btn-search">🔍</button>
+                </div>
+                <select class="filter-select" id="filter-oficina">
+                    <option value="">Todas las oficinas</option>
+                </select>
+                <select class="filter-select" id="filter-rol">
+                    <option value="">Todos los roles</option>
+                </select>
+                <select class="filter-select" id="filter-estado">
+                    <option value="">Todos los estados</option>
+                </select>
+            </div>
+            <div class="action-controls">
+                <button class="btn btn-outline" id="btn-limpiar-filtros">Limpiar Filtros</button>
+                <button class="btn btn-secondary" id="btn-exportar">📊 Exportar a PDF</button>
+                <a href="registrar-personal.html" class="btn btn-primary">+ Agregar Personal</a>
+            </div>
+        </div>
+
+        <!-- Tabla de personal -->
+        <div class="table-container">
+            <table class="personal-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort="nombre">
+                            <span>Nombre</span>
+                            <span class="sort-icon">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="apellido">
+                            <span>Apellido</span>
+                            <span class="sort-icon">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="usuario">
+                            <span>Usuario</span>
+                            <span class="sort-icon">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="rol">
+                            <span>Rol Sistema</span>
+                            <span class="sort-icon">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="oficina">
+                            <span>Oficina N°</span>
+                            <span class="sort-icon">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="estado">
+                            <span>Estado</span>
+                            <span class="sort-icon">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="fecha">
+                            <span>Fecha Registro</span>
+                            <span class="sort-icon">↕️</span>
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="personal-tbody">
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">JC</div>
+                                <span>Juan Carlos</span>
+                            </div>
+                        </td>
+                        <td>Pérez González</td>
+                        <td>
+                            <span class="username">jcperez</span>
+                        </td>
+                        <td>
+                            <span class="role-badge admin">Administrador</span>
+                        </td>
+                        <td>Oficina Central</td>
+                        <td>
+                            <span class="status-badge active">Activo</span>
+                        </td>
+                        <td>16/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="1">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="1">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="1">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="1">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">MG</div>
+                                <span>María</span>
+                            </div>
+                        </td>
+                        <td>González López</td>
+                        <td>
+                            <span class="username">mgonzalez</span>
+                        </td>
+                        <td>
+                            <span class="role-badge supervisor">Supervisor</span>
+                        </td>
+                        <td>Sucursal Norte</td>
+                        <td>
+                            <span class="status-badge active">Activo</span>
+                        </td>
+                        <td>15/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="2">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="2">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="2">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="2">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">AR</div>
+                                <span>Ana</span>
+                            </div>
+                        </td>
+                        <td>Rodríguez Martín</td>
+                        <td>
+                            <span class="username">arodriguez</span>
+                        </td>
+                        <td>
+                            <span class="role-badge operator">Operador</span>
+                        </td>
+                        <td>Sucursal Sur</td>
+                        <td>
+                            <span class="status-badge active">Activo</span>
+                        </td>
+                        <td>14/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="3">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="3">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="3">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="3">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">LM</div>
+                                <span>Luis</span>
+                            </div>
+                        </td>
+                        <td>Martínez Silva</td>
+                        <td>
+                            <span class="username">lmartinez</span>
+                        </td>
+                        <td>
+                            <span class="role-badge technician">Técnico</span>
+                        </td>
+                        <td>Oficina Central</td>
+                        <td>
+                            <span class="status-badge inactive">Inactivo</span>
+                        </td>
+                        <td>13/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="4">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="4">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="4">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="4">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">CS</div>
+                                <span>Carlos</span>
+                            </div>
+                        </td>
+                        <td>Sánchez López</td>
+                        <td>
+                            <span class="username">csanchez</span>
+                        </td>
+                        <td>
+                            <span class="role-badge supervisor">Supervisor</span>
+                        </td>
+                        <td>Sucursal Este</td>
+                        <td>
+                            <span class="status-badge active">Activo</span>
+                        </td>
+                        <td>12/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="5">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="5">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="5">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="5">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">PT</div>
+                                <span>Patricia</span>
+                            </div>
+                        </td>
+                        <td>Torres Ruiz</td>
+                        <td>
+                            <span class="username">ptorres</span>
+                        </td>
+                        <td>
+                            <span class="role-badge operator">Operador</span>
+                        </td>
+                        <td>Oficina Central</td>
+                        <td>
+                            <span class="status-badge active">Activo</span>
+                        </td>
+                        <td>11/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="6">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="6">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="6">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="6">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">RF</div>
+                                <span>Roberto</span>
+                            </div>
+                        </td>
+                        <td>Fernández García</td>
+                        <td>
+                            <span class="username">rfernandez</span>
+                        </td>
+                        <td>
+                            <span class="role-badge technician">Técnico</span>
+                        </td>
+                        <td>Sucursal Norte</td>
+                        <td>
+                            <span class="status-badge active">Activo</span>
+                        </td>
+                        <td>10/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="7">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="7">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="7">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="7">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-cell">
+                                <div class="employee-avatar">SM</div>
+                                <span>Sandra</span>
+                            </div>
+                        </td>
+                        <td>Morales Díaz</td>
+                        <td>
+                            <span class="username">smorales</span>
+                        </td>
+                        <td>
+                            <span class="role-badge admin">Administrador</span>
+                        </td>
+                        <td>Sucursal Sur</td>
+                        <td>
+                            <span class="status-badge active">Activo</span>
+                        </td>
+                        <td>09/07/2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" title="Ver perfil" data-id="8">👁️</button>
+                                <button class="action-btn edit-btn" title="Editar" data-id="8">✏️</button>
+                                <button class="action-btn assign-btn" title="Asignaciones" data-id="8">📋</button>
+                                <button class="action-btn delete-btn" title="Eliminar" data-id="8">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination-container">
+            <div class="pagination-info">
+                <span>Mostrando <strong>1-8</strong> de <strong>127</strong> empleados</span>
+            </div>
+            <div class="pagination">
+                <button class="pagination-btn" disabled>‹ Anterior</button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn">...</button>
+                <button class="pagination-btn">16</button>
+                <button class="pagination-btn">Siguiente ›</button>
+            </div>
+            <div class="items-per-page">
+                <span>Elementos por página:</span>
+                <select class="items-select" id="items-per-page">
+                    <option value="8">8</option>
+                    <option value="15">15</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
