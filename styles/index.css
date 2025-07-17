@@ -24,8 +24,9 @@ body {
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: flex-start; /* Cambiar de space-between a flex-start */
+    position: relative; /* Agregar para posicionar user-info */
 }
 
 .header h1 {
@@ -41,7 +42,22 @@ body {
     font-weight: 400;
 }
 
+.header-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-right: 1rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto; /* No crecer ni encogerse */
+}
+
 .user-info {
+    position: absolute;
+    right: 2rem; /* Mantener alineado con el padding del contenedor */
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -309,6 +325,28 @@ body {
 
 .quick-btn:hover {
     background: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+    .header-logo {
+        display: none;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        position: static; /* Resetear position */
+    }
+    
+    .header-left {
+        width: 100%;
+    }
+    
+    .user-info {
+        position: static; /* Resetear position en móvil */
+        right: auto;
+    }
 }
 
 @media (max-width: 1024px) {
