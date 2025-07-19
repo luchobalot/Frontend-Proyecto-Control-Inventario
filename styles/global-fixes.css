@@ -1,0 +1,18 @@
+/* ==========================================
+   GLOBAL FIX – Problema de emojis duplicados
+   ========================================== */
+
+/* Aplica a todo el sitio */
+html, body, *, *::before, *::after {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                 "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif !important;
+                 
+    font-variant-emoji: normal;
+    font-feature-settings: "liga" off;
+    -webkit-font-feature-settings: "liga" off;
+    -moz-font-feature-settings: "liga" off;
+    font-variant-ligatures: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
