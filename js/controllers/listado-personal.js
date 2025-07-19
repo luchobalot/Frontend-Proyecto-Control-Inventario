@@ -2,9 +2,10 @@
 class ListadoPersonalController {
     constructor() {
         this.currentPage = 1;
-        this.pageSize = 8; // Como tienes en tu HTML
-        this.allPersonas = []; // Guardar todas las personas para filtrar
-        this.filteredPersonas = []; // Personas después de aplicar filtros
+        this.pageSize = 10; 
+        this.allPersonas = [];
+        this.filteredPersonas = [];
+        this.totalPersonasEnBDD = 0; // Total real de la base de datos
         this.init();
     }
 
@@ -24,8 +25,8 @@ class ListadoPersonalController {
             // Mostrar loading
             this.showLoading();
             
-            // Llamar a la API
-            const response = await PersonaService.getAll(this.currentPage, this.pageSize);
+            // Llamar a la API con un pageSize grande para obtener TODAS las personas
+            const response = await PersonaService.getAll(1, 100); // Obtener hasta 100 personas
             console.log('=== DEBUG COMPLETO ===');
             console.log('Respuesta completa:', response);
             console.log('Tipo de response:', typeof response);
@@ -61,13 +62,14 @@ class ListadoPersonalController {
             console.log('Total count:', totalCount);
             console.log('¿Es array personas?', Array.isArray(personas));
             
-            // Guardar todas las personas para filtrado local
+            // Guardar todas las personas y el total real de la BDD
             this.allPersonas = personas;
             this.filteredPersonas = personas;
+            this.totalPersonasEnBDD = totalCount; // Total real de la base de datos
             
             // Renderizar datos
-            this.renderPersonal(personas);
-            this.updateStats(totalCount);
+            this.renderPersonal(this.filteredPersonas);
+            this.updateStats(this.filteredPersonas.length);
             
         } catch (error) {
             console.error('Error al cargar personal:', error);
@@ -78,16 +80,11 @@ class ListadoPersonalController {
     showLoading() {
         const tbody = document.getElementById('personal-tbody');
         if (tbody) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">Cargando...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem;">Cargando...</td></tr>';
         }
     }
 
     renderPersonal(personas) {
-        console.log('=== RENDERIZANDO ===');
-        console.log('Entrando a renderPersonal con:', personas);
-        console.log('Tipo:', typeof personas);
-        console.log('¿Es array?', Array.isArray(personas));
-        
         const tbody = document.getElementById('personal-tbody');
         if (!tbody) {
             console.error('No se encontró el tbody con id personal-tbody');
@@ -102,17 +99,20 @@ class ListadoPersonalController {
         }
 
         if (personas.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No se encontraron personas</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No se encontraron personas</td></tr>';
             return;
         }
 
-        // DIAGNÓSTICO: Ver qué propiedades tiene el primer objeto
         if (personas.length > 0) {
             console.log('Primera persona completa:', personas[0]);
             console.log('Propiedades disponibles:', Object.keys(personas[0]));
         }
 
-        tbody.innerHTML = personas.map(persona => 
+        // Aplicar límite de elementos por página
+        const personasToShow = personas.slice(0, this.pageSize);
+        console.log('Mostrando', personasToShow.length, 'de', personas.length, 'personas filtradas');
+
+        tbody.innerHTML = personasToShow.map(persona => 
             '<tr>' +
                 '<td>' +
                     '<div class="employee-cell">' +
@@ -131,7 +131,6 @@ class ListadoPersonalController {
                 '<td>' +
                     '<span class="status-badge active">Activo</span>' +
                 '</td>' +
-                '<td>-</td>' +
                 '<td>' +
                     '<div class="action-buttons">' +
                         '<button class="action-btn view-btn" title="Ver perfil" data-id="' + persona.idPersona + '">👁️</button>' +
@@ -142,8 +141,6 @@ class ListadoPersonalController {
                 '</td>' +
             '</tr>'
         ).join('');
-        
-        console.log('Tabla renderizada exitosamente');
     }
 
     // ==================== CONFIGURACIÓN DE EVENTOS ====================
@@ -157,20 +154,19 @@ class ListadoPersonalController {
             });
         }
 
-        // Botón de búsqueda (opcional, por si alguien hace click)
-        const searchBtn = document.getElementById('btn-search');
-        if (searchBtn) {
-            searchBtn.addEventListener('click', () => {
-                const searchValue = document.getElementById('search-input') ? document.getElementById('search-input').value : '';
-                this.handleSearch(searchValue);
-            });
-        }
-
         // Botón limpiar filtros
         const clearBtn = document.getElementById('btn-limpiar-filtros');
         if (clearBtn) {
             clearBtn.addEventListener('click', () => {
                 this.clearFilters();
+            });
+        }
+
+        // Dropdown de elementos por página
+        const itemsSelect = document.getElementById('items-per-page');
+        if (itemsSelect) {
+            itemsSelect.addEventListener('change', (e) => {
+                this.handlePageSizeChange(parseInt(e.target.value));
             });
         }
     }
@@ -227,6 +223,20 @@ class ListadoPersonalController {
         console.log('Filtros limpiados');
     }
 
+    // ==================== PAGINACIÓN ====================
+    
+    handlePageSizeChange(newPageSize) {
+        console.log('Cambiando elementos por página a:', newPageSize);
+        
+        this.pageSize = newPageSize;
+        
+        // Volver a renderizar con el nuevo tamaño de página
+        this.renderPersonal(this.filteredPersonas);
+        this.updateStats(this.filteredPersonas.length);
+        
+        console.log('Ahora mostrando', newPageSize, 'elementos por página');
+    }
+
     getInitials(nombre, apellido) {
         const n = nombre ? nombre.charAt(0).toUpperCase() : '';
         const a = apellido ? apellido.charAt(0).toUpperCase() : '';
@@ -253,32 +263,34 @@ class ListadoPersonalController {
         }
     }
 
-    updateStats(count) {
-        // Actualizar contador principal
+    updateStats(countFiltered) {
+        // Actualizar contador principal - SIEMPRE muestra el total de la BDD
         const totalElement = document.getElementById('total-empleados');
         if (totalElement) {
-            if (count === this.allPersonas.length) {
-                totalElement.textContent = count + ' personas registradas';
+            if (countFiltered === this.allPersonas.length) {
+                // Mostrando todas las personas
+                totalElement.textContent = this.totalPersonasEnBDD + ' personas registradas';
             } else {
-                totalElement.textContent = count + ' personas encontradas de ' + this.allPersonas.length + ' registradas';
+                // Mostrando resultados filtrados
+                totalElement.textContent = countFiltered + ' personas encontradas de ' + this.totalPersonasEnBDD + ' registradas';
             }
         }
         
         // Actualizar info de paginación
         const paginationInfo = document.querySelector('.pagination-info span');
         if (paginationInfo) {
-            const showing = Math.min(this.pageSize, count);
-            const startItem = count > 0 ? 1 : 0;
-            const endItem = Math.min(this.pageSize, count);
+            const showing = Math.min(this.pageSize, countFiltered);
+            const startItem = countFiltered > 0 ? 1 : 0;
+            const endItem = Math.min(this.pageSize, countFiltered);
             
-            paginationInfo.innerHTML = 'Mostrando <strong>' + startItem + '-' + endItem + '</strong> de <strong>' + count + '</strong> personas';
+            paginationInfo.innerHTML = 'Mostrando <strong>' + startItem + '-' + endItem + '</strong> de <strong>' + this.totalPersonasEnBDD + '</strong> personas';
         }
     }
 
     showError(message) {
         const tbody = document.getElementById('personal-tbody');
         if (tbody) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: #ef4444;">' + message + '</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #ef4444;">' + message + '</td></tr>';
         }
     }
 }

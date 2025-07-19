@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="page-stats">
-                <span class="total-count" id="total-empleados">127 personas registradas</span>
+                <span class="total-count" id="total-empleados"></span>
             </div>
         </div>
 
@@ -96,10 +96,6 @@
                         </th>
                         <th class="sortable" data-sort="estado">
                             <span>Estado</span>
-                            <span class="sort-icon">↕️</span>
-                        </th>
-                        <th class="sortable" data-sort="fecha">
-                            <span>Fecha Registro</span>
                             <span class="sort-icon">↕️</span>
                         </th>
                         <th>Acciones</th>
@@ -337,7 +333,7 @@
         <!-- Paginación -->
         <div class="pagination-container">
             <div class="pagination-info">
-                <span>Mostrando <strong>1-8</strong> de <strong>127</strong> personas</span>
+                <span>Mostrando <strong>1-8</strong> de <strong></strong> personas</span>
             </div>
             <div class="pagination">
                 <button class="pagination-btn" disabled>‹ Anterior</button>
@@ -345,16 +341,16 @@
                 <button class="pagination-btn">2</button>
                 <button class="pagination-btn">3</button>
                 <button class="pagination-btn">...</button>
-                <button class="pagination-btn">16</button>
+                <button class="pagination-btn">X</button>
                 <button class="pagination-btn">Siguiente ›</button>
             </div>
             <div class="items-per-page">
                 <span>Elementos por página:</span>
                 <select class="items-select" id="items-per-page">
-                    <option value="8">8</option>
-                    <option value="15">15</option>
-                    <option value="25">25</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
                     <option value="50">50</option>
+                    <option value="100">100</option>
                 </select>
             </div>
         </div>
