@@ -3,6 +3,8 @@ class ListadoPersonalController {
     constructor() {
         this.currentPage = 1;
         this.pageSize = 8; // Como tienes en tu HTML
+        this.allPersonas = []; // Guardar todas las personas para filtrar
+        this.filteredPersonas = []; // Personas después de aplicar filtros
         this.init();
     }
 
@@ -10,6 +12,7 @@ class ListadoPersonalController {
         try {
             console.log('Iniciando carga de personal...');
             await this.loadPersonal();
+            this.setupEventListeners(); // Configurar eventos
         } catch (error) {
             console.error('Error al inicializar:', error);
             this.showError('Error al cargar los datos del personal');
@@ -58,6 +61,10 @@ class ListadoPersonalController {
             console.log('Total count:', totalCount);
             console.log('¿Es array personas?', Array.isArray(personas));
             
+            // Guardar todas las personas para filtrado local
+            this.allPersonas = personas;
+            this.filteredPersonas = personas;
+            
             // Renderizar datos
             this.renderPersonal(personas);
             this.updateStats(totalCount);
@@ -105,38 +112,119 @@ class ListadoPersonalController {
             console.log('Propiedades disponibles:', Object.keys(personas[0]));
         }
 
-        tbody.innerHTML = personas.map(persona => `
-            <tr>
-                <td>
-                    <div class="employee-cell">
-                        <div class="employee-avatar">${this.getInitials(persona.nombre, persona.apellido)}</div>
-                        <span>${persona.nombre}</span>
-                    </div>
-                </td>
-                <td>${persona.apellido}</td>
-                <td>
-                    <span class="username">${persona.nombreUsuario}</span>
-                </td>
-                <td>
-                    <span class="role-badge ${this.getRoleClass(persona.rol)}">${this.getRoleText(persona.rol)}</span>
-                </td>
-                <td>${persona.oficinaNumero ? `Oficina ${persona.oficinaNumero}` : 'Sin oficina'}</td>
-                <td>
-                    <span class="status-badge active">Activo</span>
-                </td>
-                <td>-</td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="action-btn view-btn" title="Ver perfil" data-id="${persona.idPersona}">👁️</button>
-                        <button class="action-btn edit-btn" title="Editar" data-id="${persona.idPersona}">✏️</button>
-                        <button class="action-btn assign-btn" title="Asignaciones" data-id="${persona.idPersona}">📋</button>
-                        <button class="action-btn delete-btn" title="Eliminar" data-id="${persona.idPersona}">🗑️</button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
+        tbody.innerHTML = personas.map(persona => 
+            '<tr>' +
+                '<td>' +
+                    '<div class="employee-cell">' +
+                        '<div class="employee-avatar">' + this.getInitials(persona.nombre, persona.apellido) + '</div>' +
+                        '<span>' + persona.nombre + '</span>' +
+                    '</div>' +
+                '</td>' +
+                '<td>' + persona.apellido + '</td>' +
+                '<td>' +
+                    '<span class="username">' + persona.nombreUsuario + '</span>' +
+                '</td>' +
+                '<td>' +
+                    '<span class="role-badge ' + this.getRoleClass(persona.rol) + '">' + this.getRoleText(persona.rol) + '</span>' +
+                '</td>' +
+                '<td>' + (persona.oficinaNumero ? ('Oficina ' + persona.oficinaNumero) : 'Sin oficina') + '</td>' +
+                '<td>' +
+                    '<span class="status-badge active">Activo</span>' +
+                '</td>' +
+                '<td>-</td>' +
+                '<td>' +
+                    '<div class="action-buttons">' +
+                        '<button class="action-btn view-btn" title="Ver perfil" data-id="' + persona.idPersona + '">👁️</button>' +
+                        '<button class="action-btn edit-btn" title="Editar" data-id="' + persona.idPersona + '">✏️</button>' +
+                        '<button class="action-btn assign-btn" title="Asignaciones" data-id="' + persona.idPersona + '">📋</button>' +
+                        '<button class="action-btn delete-btn" title="Eliminar" data-id="' + persona.idPersona + '">🗑️</button>' +
+                    '</div>' +
+                '</td>' +
+            '</tr>'
+        ).join('');
         
         console.log('Tabla renderizada exitosamente');
+    }
+
+    // ==================== CONFIGURACIÓN DE EVENTOS ====================
+    
+    setupEventListeners() {
+        // Buscador en tiempo real
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.handleSearch(e.target.value);
+            });
+        }
+
+        // Botón de búsqueda (opcional, por si alguien hace click)
+        const searchBtn = document.getElementById('btn-search');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                const searchValue = document.getElementById('search-input') ? document.getElementById('search-input').value : '';
+                this.handleSearch(searchValue);
+            });
+        }
+
+        // Botón limpiar filtros
+        const clearBtn = document.getElementById('btn-limpiar-filtros');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                this.clearFilters();
+            });
+        }
+    }
+
+    // ==================== BÚSQUEDA Y FILTROS ====================
+    
+    handleSearch(searchTerm) {
+        console.log('Buscando:', searchTerm);
+        
+        if (!searchTerm || searchTerm.trim() === '') {
+            // Si no hay término de búsqueda, mostrar todas las personas
+            this.filteredPersonas = [...this.allPersonas];
+        } else {
+            // Filtrar personas según el término de búsqueda
+            const term = searchTerm.toLowerCase().trim();
+            this.filteredPersonas = this.allPersonas.filter(persona => {
+                return (
+                    persona.nombre.toLowerCase().includes(term) ||
+                    persona.apellido.toLowerCase().includes(term) ||
+                    persona.nombreUsuario.toLowerCase().includes(term) ||
+                    persona.nombreCompleto.toLowerCase().includes(term)
+                );
+            });
+        }
+        
+        // Renderizar resultados filtrados
+        this.renderPersonal(this.filteredPersonas);
+        this.updateStats(this.filteredPersonas.length);
+        
+        console.log('Encontradas ' + this.filteredPersonas.length + ' personas');
+    }
+
+    clearFilters() {
+        // Limpiar campo de búsqueda
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.value = '';
+        }
+
+        // Limpiar filtros de select
+        const selects = ['filter-oficina', 'filter-rol', 'filter-estado'];
+        selects.forEach(selectId => {
+            const select = document.getElementById(selectId);
+            if (select) {
+                select.value = '';
+            }
+        });
+
+        // Mostrar todas las personas
+        this.filteredPersonas = [...this.allPersonas];
+        this.renderPersonal(this.filteredPersonas);
+        this.updateStats(this.filteredPersonas.length);
+        
+        console.log('Filtros limpiados');
     }
 
     getInitials(nombre, apellido) {
@@ -149,7 +237,7 @@ class ListadoPersonalController {
         switch(rol) {
             case 1: return 'operator'; // Usuario
             case 2: return 'admin'; // Administrador  
-            case 3: return 'admin'; // SuperAdmin
+            case 3: return 'supervisor'; // SuperAdmin
             case 4: return 'technician'; // Sin Usuario
             default: return 'operator';
         }
@@ -165,28 +253,32 @@ class ListadoPersonalController {
         }
     }
 
-    updateStats(totalCount) {
+    updateStats(count) {
         // Actualizar contador principal
         const totalElement = document.getElementById('total-empleados');
         if (totalElement) {
-            totalElement.textContent = `${totalCount} personas registradas`;
+            if (count === this.allPersonas.length) {
+                totalElement.textContent = count + ' personas registradas';
+            } else {
+                totalElement.textContent = count + ' personas encontradas de ' + this.allPersonas.length + ' registradas';
+            }
         }
         
         // Actualizar info de paginación
         const paginationInfo = document.querySelector('.pagination-info span');
         if (paginationInfo) {
-            const showing = Math.min(this.pageSize, totalCount);
-            const startItem = ((this.currentPage - 1) * this.pageSize) + 1;
-            const endItem = Math.min(this.currentPage * this.pageSize, totalCount);
+            const showing = Math.min(this.pageSize, count);
+            const startItem = count > 0 ? 1 : 0;
+            const endItem = Math.min(this.pageSize, count);
             
-            paginationInfo.innerHTML = `Mostrando <strong>${startItem}-${endItem}</strong> de <strong>${totalCount}</strong> personas`;
+            paginationInfo.innerHTML = 'Mostrando <strong>' + startItem + '-' + endItem + '</strong> de <strong>' + count + '</strong> personas';
         }
     }
 
     showError(message) {
         const tbody = document.getElementById('personal-tbody');
         if (tbody) {
-            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2rem; color: #ef4444;">${message}</td></tr>`;
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: #ef4444;">' + message + '</td></tr>';
         }
     }
 }
