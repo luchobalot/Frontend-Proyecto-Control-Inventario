@@ -135,7 +135,6 @@ class ListadoPersonalController {
                     '<div class="action-buttons">' +
                         '<button class="action-btn view-btn" title="Ver perfil" data-id="' + persona.idPersona + '">👁️</button>' +
                         '<button class="action-btn edit-btn" title="Editar" data-id="' + persona.idPersona + '">✏️</button>' +
-                        '<button class="action-btn assign-btn" title="Asignaciones" data-id="' + persona.idPersona + '">📋</button>' +
                         '<button class="action-btn delete-btn" title="Eliminar" data-id="' + persona.idPersona + '">🗑️</button>' +
                     '</div>' +
                 '</td>' +

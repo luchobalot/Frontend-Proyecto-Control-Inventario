@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Personal - Control de Inventario</title>
     <link rel="stylesheet" href="styles/listado-personal.css">
+    <link rel="stylesheet" href="styles/modales/modal-perfil.css">
 </head>
 <body>
     <div class="header">
@@ -209,7 +210,6 @@
                             <div class="action-buttons">
                                 <button class="action-btn view-btn" title="Ver perfil" data-id="4">👁️</button>
                                 <button class="action-btn edit-btn" title="Editar" data-id="4">✏️</button>
-                                <button class="action-btn assign-btn" title="Asignaciones" data-id="4">📋</button>
                                 <button class="action-btn delete-btn" title="Eliminar" data-id="4">🗑️</button>
                             </div>
                         </td>
@@ -237,7 +237,6 @@
                             <div class="action-buttons">
                                 <button class="action-btn view-btn" title="Ver perfil" data-id="5">👁️</button>
                                 <button class="action-btn edit-btn" title="Editar" data-id="5">✏️</button>
-                                <button class="action-btn assign-btn" title="Asignaciones" data-id="5">📋</button>
                                 <button class="action-btn delete-btn" title="Eliminar" data-id="5">🗑️</button>
                             </div>
                         </td>
@@ -355,10 +354,13 @@
             </div>
         </div>
     </div>
+
     <!-- Scripts -->
     <script src="js/config.js"></script>
     <script src="js/utils/http.js"></script>
     <script src="js/services/personaService.js"></script>
+    <script src="js/services/materialService.js"></script>
     <script src="js/controllers/listado-personal.js"></script>
+    <script src="js/modales/modal-perfil.js"></script>
 </body>
 </html>

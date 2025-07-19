@@ -27,3 +27,5 @@ class HttpClient {
         }
     }
 }
+
+window.HttpClient = HttpClient;
